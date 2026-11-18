@@ -31,9 +31,9 @@ CREATE TABLE IF NOT EXISTS NYC_TAXI.BRONZE.YELLOW_TRIPS (
 );
 
 -- Référentiel des zones : le texte N/A est conservé tel quel
-CREATE TABLE IF NOT EXISTS NYC_TAXI.BRONZE.ZONES (
-    LocationID INTEGER,
-    Borough    VARCHAR,
-    Zone       VARCHAR,
+CREATE TABLE IF NOT EXISTS NYC_TAXI.BRONZE.TAXI_ZONES (
+    LocationID   INTEGER,
+    Borough      VARCHAR,
+    Zone         VARCHAR,
     service_zone VARCHAR
 );
