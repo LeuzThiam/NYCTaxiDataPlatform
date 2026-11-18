@@ -1,0 +1,5 @@
+USE ROLE SYSADMIN;
+
+-- Zone de depôt des fichiers sources, dans le schéma BRONZE
+CREATE STAGE IF NOT EXISTS NYC_TAXI.BRONZE.STG_RAW
+    FILE_FORMAT = (TYPE = PARQUET);
