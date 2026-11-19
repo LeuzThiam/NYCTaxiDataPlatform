@@ -4,3 +4,6 @@ ipykernel==7.4.0
 cryptography==50.0.2
 python-dotenv==1.2.4
 snowflake-connector-python==5.2.0
+dbt-core==1.12.7
+dbt-snowflake==1.12.5
+dbt-core-experimental-parser==2.0.11
