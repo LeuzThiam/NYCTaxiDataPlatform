@@ -25,7 +25,6 @@ CREATE TABLE IF NOT EXISTS NYC_TAXI.BRONZE.YELLOW_TRIPS (
 
     -- Colonnes de traçabilité
     source_file           VARCHAR,
-    source_month          DATE,
     source_row_number     INTEGER,
     loaded_at             TIMESTAMP_LTZ DEFAULT CURRENT_TIMESTAMP()
 );

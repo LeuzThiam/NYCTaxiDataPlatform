@@ -18,7 +18,7 @@ Ce choix découle de l'approche ELT : on charge d'abord, on transforme ensuite d
 ### `bronze.yellow_trips`
 
 - **Granularité :** une ligne = une ligne du fichier source.
-- **Contenu :** les 19 colonnes du fichier, avec leur nom et leur type d'origine, plus 4 colonnes de traçabilité.
+- **Contenu :** les 19 colonnes du fichier, avec leur nom et leur type d'origine, plus 3 colonnes de traçabilité.
 - **Structure :** une seule table pour tous les mois.
 
 ### `bronze.taxi_zones`
@@ -32,11 +32,12 @@ Ce choix découle de l'approche ELT : on charge d'abord, on transforme ensuite d
 | Colonne | Type | Rôle |
 |---|---|---|
 | `source_file` | Texte | Nom du fichier d'origine. Permet de retrouver ou de remplacer un fichier précis. |
-| `source_month` | Date | Premier jour du mois couvert par le fichier (par exemple `2024-01-01`). |
 | `source_row_number` | Entier | Position de la ligne dans le fichier. |
 | `loaded_at` | Horodatage | Date et heure du chargement. |
 
 Ces colonnes ne modifient aucune donnée source : elles s'ajoutent à la fin de chaque ligne.
+
+Le mois couvert par une ligne n'est pas stocké en Bronze : il est dérivé de `source_file` en Silver. Cela évite de donner au compte de service un droit de modification (`UPDATE`) dont il n'a pas besoin.
 
 ## Choix de conception et justifications
 
@@ -44,7 +45,7 @@ Ces colonnes ne modifient aucune donnée source : elles s'ajoutent à la fin de 
 2. **Types d'origine conservés.** Un fichier Parquet est déjà typé. Charger tout en texte ajouterait des conversions inutiles. Les montants restent des flottants (`double`) ; la conversion en `DECIMAL` se fait en Silver.
 3. **Noms de colonnes d'origine conservés**, y compris `Airport_fee`. La standardisation des noms se fait en Silver.
 4. **Une seule table pour tous les mois.** Les fichiers mensuels ont le même schéma. Une table unique simplifie les requêtes, et `source_file` permet de remplacer un seul fichier sans toucher aux autres.
-5. **Traçabilité minimale.** Les quatre colonnes ajoutées répondent à un besoin précis : retrouver la source (`source_file`, `source_month`), identifier une ligne source (`source_row_number`) et savoir quand elle est arrivée (`loaded_at`). On n'ajoute pas d'identifiant d'exécution pour l'instant : il n'aura de sens qu'avec la table de suivi des exécutions.
+5. **Traçabilité minimale.** Les trois colonnes ajoutées répondent à un besoin précis : retrouver la source (`source_file`), identifier une ligne source (`source_row_number`) et savoir quand elle est arrivée (`loaded_at`). On n'ajoute pas d'identifiant d'exécution pour l'instant : il n'aura de sens qu'avec la table de suivi des exécutions.
 
 ## Ce que Bronze ne fait pas
 
