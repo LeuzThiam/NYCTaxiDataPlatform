@@ -34,7 +34,7 @@ Approche **ELT** : les données brutes sont chargées d'abord, puis transformée
 | Module | Contenu | État |
 |---|---|---|
 | 1 | Exploration des données et règles de qualité | Terminé |
-| 2 | Ingestion Bronze (Python vers Snowflake) | En cours |
+| 2 | Ingestion Bronze (Python vers Snowflake) | Terminé |
 | 3 | Couche Silver (dbt) | À venir |
 | 4 | Couche Gold, modèle en étoile (dbt) | À venir |
 | 5 | Chargements incrémentaux et idempotence | À venir |
@@ -42,7 +42,7 @@ Approche **ELT** : les données brutes sont chargées d'abord, puis transformée
 | 7 | Tests et intégration continue | À venir |
 | 8 | Consolidation et documentation finale | À venir |
 
-Déjà en place : exploration documentée dans des notebooks, règles de qualité des données, conception de la couche Bronze, environnement Snowflake (entrepôt, base, schémas, stage, tables), compte de service avec rôle à privilèges minimaux et authentification par clé, module de connexion Python.
+Déjà en place : exploration documentée dans des notebooks, règles de qualité des données, conception de la couche Bronze, environnement Snowflake (entrepôt, base, schémas, stage, tables), compte de service avec rôle à privilèges minimaux et authentification par clé, module de connexion Python, chargement dans Bronze des trois mois de courses (9 554 778 lignes) et du référentiel des zones (265 zones), avec contrôle des volumes et des dates après chaque chargement.
 
 ## Choix techniques
 
@@ -83,7 +83,11 @@ Exécuter les scripts de `sql/` dans l'ordre (01 à 04) avec les rôles appropri
 
 ```
 python ingestion/connexion.py
+python ingestion/charger_zones.py
+python ingestion/charger_trajets.py 2024-01
 ```
+
+Le script `charger_trajets.py` prend le mois en argument (`AAAA-MM`) : il envoie le fichier Parquet au stage Snowflake, puis le charge dans `bronze.yellow_trips`.
 
 ## Source des données
 
