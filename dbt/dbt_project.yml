@@ -8,3 +8,7 @@ macro-paths: ["macros"]
 test-paths: ["tests"]
 
 clean-targets: ["target", "dbt_packages"]
+models:
+  nyc_taxi:
+    silver:
+      +materialized: table

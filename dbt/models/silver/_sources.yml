@@ -1,0 +1,12 @@
+version: 2
+
+sources:
+  - name: bronze
+    description: "Données brutes chargées par les scripts Python d'ingestion"
+    database: NYC_TAXI
+    schema: BRONZE
+    tables:
+      - name: yellow_trips
+        description: "Courses de taxis jaunes : copie fidèle des fichiers mensuels"
+      - name: taxi_zones
+        description: "Référentiel des zones de taxi"
